@@ -1,5 +1,6 @@
-import {useNavigate, useParams} from "react-router";
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import {UserDetalis} from "../userDetalis/userDetalis";
 
 
 export const UserInfo = ({usersList}) => {
@@ -18,4 +19,8 @@ export const UserInfo = ({usersList}) => {
             </div>
         </div>
     )
+}
+
+UserInfo.propTypes = {
+    usersList: PropTypes.array
 }

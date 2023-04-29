@@ -1,5 +1,5 @@
 import {useParams} from "react-router";
-
+import PropTypes from 'prop-types';
 
 export const UserDetalis = ({usersList}) => {
     const params = useParams()
@@ -28,4 +28,8 @@ export const UserDetalis = ({usersList}) => {
             }
         </div>
     )
+}
+
+UserDetalis.propTypes = {
+    usersList: PropTypes.array
 }
