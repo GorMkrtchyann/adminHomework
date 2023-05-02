@@ -10,9 +10,14 @@ export const UserInfo = ({usersList, setUserList}) => {
     const [phone, setPhone] = useState()
 
     const AddUser = () => {
-        setUserList([...usersList,
-            {id: Math.floor(Math.random() * 1000), name: name, phone: phone, email: email}]
+
+        if (name && email && phone){
+            setUserList([...usersList,
+                {id: Math.floor(Math.random() * 1000), name: name, phone: phone, email: email}]
             )
+        }else{
+            alert("Try Again")
+        }
     }
 
     const RemoveUser = (e) => {
