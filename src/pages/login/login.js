@@ -22,14 +22,19 @@ export const Login = () => {
             alert("Its wrong")
         }
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
+
     return(
         <div className={"login"}>
             <h2>Login</h2>
-            <div className={"login__inputs"}>
-                <input type="text" placeholder={"UserName"} onChange={changeName}/>
-                <input type="password" placeholder={"Password"} onChange={changePassword}/>
+            <form className={"login__inputs"} onSubmit={handleSubmit}>
+                <input type="text" placeholder={"UserName"} onChange={changeName} required/>
+                <input type="password" placeholder={"Password"} onChange={changePassword} required/>
                 <button onClick={login}>Login</button>
-            </div>
+            </form>
         </div>
     )
 }

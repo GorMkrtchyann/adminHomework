@@ -1,48 +1,45 @@
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
-import {UserDetalis} from "../userDetalis/userDetalis";
-import {useState} from "react";
+import { useForm } from "react-hook-form";
+import {useCallback, useMemo} from "react";
+import {useNavigate} from "react-router";
 
 
 export const UserInfo = ({usersList, setUserList}) => {
-    const [name, setName] = useState()
-    const [email, setEmail] = useState()
-    const [phone, setPhone] = useState()
+    const { register, handleSubmit } = useForm();
+    const navigate = useNavigate()
 
-    const AddUser = () => {
+    const onSubmit = useCallback((data) => {
+        setUserList([...usersList,
+            {id: Math.floor(Math.random() * 1000), name: data.name, phone: data.phone, email: data.email}]
+        )
+    }, [])
 
-        if (name && email && phone){
-            setUserList([...usersList,
-                {id: Math.floor(Math.random() * 1000), name: name, phone: phone, email: email}]
-            )
-        }else{
-            alert("Try Again")
-        }
-    }
 
     const RemoveUser = (e) => {
+        e.stopPropagation()
         setUserList(usersList.filter((el) => {return el.id !== +e.target.id}))
     }
 
     return(
         <div className={"users"}>
             <h2>Users</h2>
-            <div className={"users__add"}>
-                <input type="text" placeholder={"Name"} onChange={(e) => setName(e.target.value)}/>
-                <input type="email" placeholder={"Email"} onChange={(e) => setEmail(e.target.value)}/>
-                <input type="number" placeholder={"Phone"} onChange={(e) => setPhone(e.target.value)}/>
-                <button onClick={AddUser}>Add</button>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className={"users__add"}>
+                <input type="text" placeholder={"Name"} {...register("name", {required: true})} />
+                <input type="email" placeholder={"Email"} {...register("email", {required: true})} />
+                <input type="number" placeholder={"Phone"} {...register("phone", {required: true})} />
+
+                <button>Add</button>
+            </form>
             <div className={"users__list"}>
             {
                 usersList?.map((el) => {
                     return(
-                        <div key={el.id} className={"users__list__user"}>
-                            <Link to={`/userDetalis/${el.id}`}>
-                                {el.name}
-                            </Link>
+                        <div onClick={() => navigate(`/userDetalis/${el.id}`)} key={el.id} className={"users__list__user"}>
+                            {el.name}
                             <button id={el.id} onClick={RemoveUser}>Remove</button>
                         </div>
+
                     )
                 })
             }
